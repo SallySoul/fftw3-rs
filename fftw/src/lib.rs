@@ -67,3 +67,4 @@ pub mod array;
 pub mod error;
 pub mod plan;
 pub mod types;
+pub mod wisdom;
