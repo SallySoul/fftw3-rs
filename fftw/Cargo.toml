@@ -14,6 +14,7 @@ default = ["source"]
 system = ["fftw-sys/system"]
 source = ["fftw-sys/source"]
 intel-mkl = ["fftw-sys/intel-mkl"]
+threads = ["source", "fftw-src/threads"]
 
 [dependencies]
 bitflags = "2.2.1"

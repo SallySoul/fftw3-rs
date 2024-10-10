@@ -59,11 +59,18 @@ fn build_unix(out_dir: &Path) {
         },
     )
     .unwrap();
-    if !out_dir.join("lib/libfftw3.a").exists() {
-        build_fftw(&[], &out_src_dir, &out_dir);
-    }
-    if !out_dir.join("lib/libfftw3f.a").exists() {
-        build_fftw(&["--enable-single"], &out_src_dir, &out_dir);
+
+    if cfg!(feature = "threads") {
+        if !out_dir.join("lib/libfftw3.a").exists() {
+            build_fftw(&["--enable-threads"], &out_src_dir, &out_dir);
+        }
+    } else {
+        if !out_dir.join("lib/libfftw3.a").exists() {
+            build_fftw(&[], &out_src_dir, &out_dir);
+        }
+        if !out_dir.join("lib/libfftw3f.a").exists() {
+            build_fftw(&["--enable-single"], &out_src_dir, &out_dir);
+        }
     }
 }
 

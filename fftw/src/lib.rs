@@ -42,6 +42,14 @@
 //! c2r.c2r(&mut a, &mut b).unwrap();
 //! ```
 
+// source, system, and intel-mkl features are mutually exclusive
+#[cfg(all(feature = "source", feature = "system"))]
+compile_error!("feature \"source\" and feature \"system\" cannot be enabled at the same time");
+#[cfg(all(feature = "source", feature = "intel-mkl"))]
+compile_error!("feature \"source\" and feature \"intel-mkl\" cannot be enabled at the same time");
+#[cfg(all(feature = "system", feature = "intel-mkl"))]
+compile_error!("feature \"system\" and feature \"intel-mkl\" cannot be enabled at the same time");
+
 extern crate fftw_sys as ffi;
 
 use lazy_static::lazy_static;
