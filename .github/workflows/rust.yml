@@ -40,8 +40,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Install system FFTW
-      run: brew install fftw
-      run: eval `brew shellenv`
+      run: brew install fftw && eval `brew shellenv`
       if: ${{ matrix.feature == 'system' }}
     - uses: actions-rs/cargo@v1
       with:
