@@ -44,7 +44,7 @@ jobs:
       if: ${{ matrix.feature == 'system' }}
     - uses: actions-rs/cargo@v1
       with:
-        command: test
+        command: `brew shellenv` && test
         args: --manifest-path=fftw/Cargo.toml --features=${{ matrix.feature }} --no-default-features
 
   linux:
