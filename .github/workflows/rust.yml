@@ -47,7 +47,7 @@ jobs:
     - name: Cargo build
       run: cargo build --verbose --features=${{ matrix.feature }} --no-default-features
     - name: Cargo test
-      run: cargo test --manifest-path=fftw/Cargo.toml --features=${{ matrix.feature }} --no-default-features
+      run: eval `brew shellenv` && cargo test --manifest-path=fftw/Cargo.toml --features=${{ matrix.feature }} --no-default-features
 
   linux:
     runs-on: ubuntu-latest
