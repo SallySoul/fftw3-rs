@@ -40,13 +40,13 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Install system FFTW
-      run: brew install fftw
       if: ${{ matrix.feature == 'system' }}
+      run: brew install fftw
     - name: Install Rust Toolchain
-      run: rustup update stable && rustup default stable 
+      run: rustup update stable && rustup default stable
     - name: Cargo build
       run: cargo build --verbose --features=${{ matrix.feature }} --no-default-features
-    - name: Cargo test 
+    - name: Cargo test
       run: cargo test --manifest-path=fftw/Cargo.toml --features=${{ matrix.feature }} --no-default-features
 
   linux:
