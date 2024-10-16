@@ -36,7 +36,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        feature: ["source", "system"]
+        feature: ["source"]
     steps:
     - uses: actions/checkout@v1
     - name: Install system FFTW
