@@ -68,15 +68,28 @@ fn build_unix(out_dir: &Path) {
 }
 
 fn build_fftw(flags: &[&str], src_dir: &Path, out_dir: &Path) {
-    run(
-        Command::new(canonicalize(src_dir.join("configure")).unwrap())
-            .arg("--with-pic")
-            .arg("--enable-static")
-            .arg("--disable-doc")
-            .arg(format!("--prefix={}", out_dir.display()))
-            .args(flags)
-            .current_dir(&src_dir),
-    );
+    if cfg!(feature = "threading") {
+        run(
+            Command::new(canonicalize(src_dir.join("configure")).unwrap())
+                .arg("--with-pic")
+                .arg("--enable-static")
+                .arg("--disable-doc")
+                .arg("--enable-threading")
+                .arg(format!("--prefix={}", out_dir.display()))
+                .args(flags)
+                .current_dir(&src_dir),
+        );
+    } else {
+        run(
+            Command::new(canonicalize(src_dir.join("configure")).unwrap())
+                .arg("--with-pic")
+                .arg("--enable-static")
+                .arg("--disable-doc")
+                .arg(format!("--prefix={}", out_dir.display()))
+                .args(flags)
+                .current_dir(&src_dir),
+        );
+    }
     run(Command::new("make")
         .arg(format!("-j{}", var("NUM_JOBS").unwrap()))
         .current_dir(&src_dir));

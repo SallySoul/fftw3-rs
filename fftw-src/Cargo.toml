@@ -12,6 +12,9 @@ license = "GPL-2.0-or-later"
 build = "build.rs"
 links = "fftw3"
 
+[features]
+threading = []
+
 [build-dependencies]
 anyhow = "1.0.70"
 cc = "1.0"

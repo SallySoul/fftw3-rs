@@ -13,6 +13,7 @@ license-file = "../LICENSE.md"
 default = ["source"]
 system = []
 source = ["fftw-src"]
+threading = ["source", "fftw-src/threading"]
 intel-mkl = ["intel-mkl-src"]
 
 [dependencies]
