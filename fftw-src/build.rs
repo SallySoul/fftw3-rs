@@ -44,7 +44,7 @@ fn download_archive_windows(out_dir: &Path) -> Result<()> {
 }
 
 fn build_unix(out_dir: &Path) {
-    let src_dir = PathBuf::from(var("CARGO_MANIFEST_DIR").unwrap()).join("fftw-3.3.8");
+    let src_dir = PathBuf::from(var("CARGO_MANIFEST_DIR").unwrap()).join("fftw-3.3.10");
     let out_src_dir = out_dir.join("src");
     fs_extra::dir::copy(
         src_dir,
