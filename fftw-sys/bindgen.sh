@@ -1,6 +1,10 @@
 #!/bin/bash
 set -uex
 
+# To run:
+# - Navigate to 'fftw-src/fftw-3.3.10/api'
+# - Run 'zsh ../../../fftw-sys/bindgen.sh`
+#
 # Blacklist setting
 #
 # Types
@@ -20,13 +24,15 @@ set -uex
 bindgen \
   --use-core \
   --with-derive-{default,eq,hash,ord} \
-  --whitelist-type="^fftw.*" \
-  --whitelist-var="^FFTW.*" \
-  --whitelist-function="^fftw.*" \
-  --blacklist-type="FILE" \
-  --blacklist-type="_.*" \
-  --blacklist-type="fftw.*_complex" \
-  --blacklist-function="fftwl_.*" \
+  --allowlist-type="^fftw.*" \
+  --allowlist-var="^FFTW.*" \
+  --allowlist-function="^fftw.*" \
+  --blocklist-type="FILE" \
+  --blocklist-type="_.*" \
+  --blocklist-type="fftw.*_complex" \
+  --blocklist-function="fftwl_.*" \
+  --blocklist-type='__darwin_off_t' \
+  --blocklist-type='fpos_t' \
   --default-enum-style=rust \
-  wrapper.h \
-  > src/fftw.rs
+  fftw3.h \
+  > ../../../fftw-sys/src/fftw.rs
