@@ -13,7 +13,7 @@ license-file = "../LICENSE.md"
 default = ["source", "threading"]
 system = ["fftw-sys/system"]
 source = ["fftw-sys/source"]
-threading = ["source", "fftw-sys/threading"]
+threading = ["source", "fftw-sys/threading", "dep:rayon", "dep:sync-ptr"]
 intel-mkl = ["fftw-sys/intel-mkl"]
 
 [dependencies]
@@ -23,6 +23,8 @@ ndarray = "0.15.6"
 num-complex = "0.4.3"
 num-traits = "0.2.15"
 thiserror = "1.0.40"
+rayon = { version =  "1.10.0", optional = true }
+sync-ptr = { version = "0.1.1", optional = true }
 
 [dependencies.fftw-sys]
 path = "../fftw-sys"

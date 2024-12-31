@@ -19,7 +19,7 @@
 //! Currently a rayon based implementation is provided with the `rayon` feature.
 //! Other threading backends can easily be added.
 //!
-//! FFTW plan generation is single threaded, and this crates protects access
+//! FFTW plan generation is not thread safe, and this crates protects access
 //! to these single threaded operations with a mutex.
 //! Plan execution does not modify the plan when data buffers are provided,
 //! as this crate does, which makes plan execution safe to to
@@ -30,18 +30,39 @@
 //! You can inspect the planners current thread setting with `planner_nthreads_*`.
 use crate::error::*;
 use crate::ffi::*;
-use crate::*;
+use rayon::prelude::*;
+use sync_ptr::SyncMutPtr;
+
+extern "C" fn rayon_thread_callback(
+    work: ::core::option::Option<
+        unsafe extern "C" fn(arg1: *mut ::core::ffi::c_char) -> *mut ::core::ffi::c_void,
+    >,
+    jobdata: *mut ::core::ffi::c_char,
+    elsize: usize,
+    njobs: ::core::ffi::c_int,
+    _: *mut ::core::ffi::c_void,
+) {
+    let sync_jobdata = unsafe { SyncMutPtr::new(jobdata) };
+    (0..njobs).into_par_iter().for_each(|job| unsafe {
+        println!("Test: {}", job);
+        let arg = sync_jobdata.inner().add(job as usize * elsize);
+        work.unwrap()(arg);
+    });
+}
 
 macro_rules! impl_init_threads {
-    ($(#[$attr:meta])* => $name:ident, $exec:ident) => {
+    ($(#[$attr:meta])* => $name:ident, $init_exec:ident, $callback_exec:ident) => {
         $(#[$attr])*
         pub fn $name() -> Result<()> {
             let result: i32;
             excall! {
-                result = $exec()
+                result = $init_exec()
             }
             if result != 1 {
                 return Err(Error::InitThreadError);
+            }
+            excall! {
+                $callback_exec(Some(rayon_thread_callback), core::ptr::null_mut::<core::ffi::c_void>())
             }
             Ok(())
         }
@@ -49,17 +70,21 @@ macro_rules! impl_init_threads {
 }
 
 impl_init_threads!(
-/// Initialize multi-threading for single precision FFTW3 plans.
+/// Initialize multi-threading for single precision FFTW3 plans
+/// using rayon thread pool.
 =>
 init_threads_f32,
-fftwf_init_threads
+fftwf_init_threads,
+fftwf_threads_set_callback
 );
 
 impl_init_threads!(
-/// Initialize multi-threading for double precision FFTW3 plans.
+/// Initialize multi-threading for double precision FFTW3 planners
+/// using rayon thread pool.
 =>
 init_threads_f64,
-fftw_init_threads
+fftw_init_threads,
+fftw_threads_set_callback
 );
 
 macro_rules! impl_plan_with_nthreads {
