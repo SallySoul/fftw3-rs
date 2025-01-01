@@ -20,7 +20,7 @@ fn download_archive_windows(out_dir: &Path) -> Result<()> {
         let buf = conn.simple_retr("fftw-3.3.5-dll64.zip")?.into_inner();
         // TODO calc checksum
         let mut f = File::create(&archive)?;
-        f.write(&buf)?;
+        f.write_all(&buf).unwrap();
     }
     let f = File::open(&archive)?;
     let mut zip = ZipArchive::new(f)?;
@@ -59,8 +59,8 @@ fn build_unix(out_dir: &Path) {
         },
     )
     .unwrap();
-    build_fftw(&[], &out_src_dir, &out_dir);
-    build_fftw(&["--enable-single"], &out_src_dir, &out_dir);
+    build_fftw(&[], &out_src_dir, out_dir);
+    build_fftw(&["--enable-single"], &out_src_dir, out_dir);
 }
 
 fn build_fftw(flags: &[&str], src_dir: &Path, out_dir: &Path) {
@@ -73,7 +73,7 @@ fn build_fftw(flags: &[&str], src_dir: &Path, out_dir: &Path) {
                 .arg("--enable-threads")
                 .arg(format!("--prefix={}", out_dir.display()))
                 .args(flags)
-                .current_dir(&src_dir),
+                .current_dir(src_dir),
         );
     } else {
         run(
@@ -83,13 +83,13 @@ fn build_fftw(flags: &[&str], src_dir: &Path, out_dir: &Path) {
                 .arg("--disable-doc")
                 .arg(format!("--prefix={}", out_dir.display()))
                 .args(flags)
-                .current_dir(&src_dir),
+                .current_dir(src_dir),
         );
     }
     run(Command::new("make")
         .arg(format!("-j{}", var("NUM_JOBS").unwrap()))
-        .current_dir(&src_dir));
-    run(Command::new("make").arg("install").current_dir(&src_dir));
+        .current_dir(src_dir));
+    run(Command::new("make").arg("install").current_dir(src_dir));
 }
 
 fn run(command: &mut Command) {
