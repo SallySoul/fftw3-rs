@@ -33,6 +33,13 @@ use crate::ffi::*;
 use rayon::prelude::*;
 use sync_ptr::SyncMutPtr;
 
+// This is a direct translation of the OpenMP example from the FFTW documentation.
+// One notable issue is that '* mut' pointers are not Send + Sync,
+// which prevents us from passing it into the ParallelIterator::for_each closure.
+// This is why we use the sync-ptr crate to wrap the jobdata pointer in
+// a struct that is explicitly Send + Sync.
+//
+// FWIW, this seemed to be an old decision in Rust that will likely never change.
 extern "C" fn rayon_thread_callback(
     work: ::core::option::Option<
         unsafe extern "C" fn(arg1: *mut ::core::ffi::c_char) -> *mut ::core::ffi::c_void,
@@ -44,7 +51,6 @@ extern "C" fn rayon_thread_callback(
 ) {
     let sync_jobdata = unsafe { SyncMutPtr::new(jobdata) };
     (0..njobs).into_par_iter().for_each(|job| unsafe {
-        println!("Test: {}", job);
         let arg = sync_jobdata.inner().add(job as usize * elsize);
         work.unwrap()(arg);
     });
