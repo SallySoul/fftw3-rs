@@ -32,4 +32,7 @@ pub enum Error {
 
     #[error("Failed to export wisdom file: {:?}", path)]
     ExportWisdomError { path: std::path::PathBuf },
+
+    #[error("Failed to initialize threads")]
+    InitThreadError,
 }

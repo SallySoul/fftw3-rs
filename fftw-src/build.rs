@@ -59,24 +59,33 @@ fn build_unix(out_dir: &Path) {
         },
     )
     .unwrap();
-    if !out_dir.join("lib/libfftw3.a").exists() {
-        build_fftw(&[], &out_src_dir, &out_dir);
-    }
-    if !out_dir.join("lib/libfftw3f.a").exists() {
-        build_fftw(&["--enable-single"], &out_src_dir, &out_dir);
-    }
+    build_fftw(&[], &out_src_dir, &out_dir);
+    build_fftw(&["--enable-single"], &out_src_dir, &out_dir);
 }
 
 fn build_fftw(flags: &[&str], src_dir: &Path, out_dir: &Path) {
-    run(
-        Command::new(canonicalize(src_dir.join("configure")).unwrap())
-            .arg("--with-pic")
-            .arg("--enable-static")
-            .arg("--disable-doc")
-            .arg(format!("--prefix={}", out_dir.display()))
-            .args(flags)
-            .current_dir(&src_dir),
-    );
+    if cfg!(feature = "threading") {
+        run(
+            Command::new(canonicalize(src_dir.join("configure")).unwrap())
+                .arg("--with-pic")
+                .arg("--enable-static")
+                .arg("--disable-doc")
+                .arg("--enable-threads")
+                .arg(format!("--prefix={}", out_dir.display()))
+                .args(flags)
+                .current_dir(&src_dir),
+        );
+    } else {
+        run(
+            Command::new(canonicalize(src_dir.join("configure")).unwrap())
+                .arg("--with-pic")
+                .arg("--enable-static")
+                .arg("--disable-doc")
+                .arg(format!("--prefix={}", out_dir.display()))
+                .args(flags)
+                .current_dir(&src_dir),
+        );
+    }
     run(Command::new("make")
         .arg(format!("-j{}", var("NUM_JOBS").unwrap()))
         .current_dir(&src_dir));
@@ -109,5 +118,9 @@ fn main() {
         println!("cargo:rustc-link-search={}", out_dir.join("lib").display());
         println!("cargo:rustc-link-lib=static=fftw3");
         println!("cargo:rustc-link-lib=static=fftw3f");
+        if cfg!(feature = "threading") {
+            println!("cargo:rustc-link-lib=static=fftw3f_threads");
+            println!("cargo:rustc-link-lib=static=fftw3_threads");
+        }
     }
 }
