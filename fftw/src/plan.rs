@@ -38,6 +38,8 @@ pub struct Plan<A, B, Plan: PlanSpec> {
 
 unsafe impl<A: Send, B: Send> Send for Plan<A, B, Plan32> {}
 unsafe impl<A: Send, B: Send> Send for Plan<A, B, Plan64> {}
+unsafe impl<A: Send, B: Send> Sync for Plan<A, B, Plan32> {}
+unsafe impl<A: Send, B: Send> Sync for Plan<A, B, Plan64> {}
 
 impl<A, B, P: PlanSpec> Drop for Plan<A, B, P> {
     fn drop(&mut self) {
