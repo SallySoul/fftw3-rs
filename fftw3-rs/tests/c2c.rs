@@ -1,5 +1,5 @@
-use fftw3::plan::*;
-use fftw3::types::*;
+use fftw3_rs::plan::*;
+use fftw3_rs::types::*;
 use num_traits::Zero;
 
 /// Check successive forward and backward transform equals to the identity

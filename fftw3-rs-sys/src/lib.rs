@@ -1,7 +1,7 @@
 #![allow(non_camel_case_types)]
 
 #[cfg(feature = "source")]
-extern crate fftw3_src as ffi;
+extern crate fftw3_rs_src as ffi;
 
 #[cfg(feature = "intel-mkl")]
 extern crate intel_mkl_src as ffi;

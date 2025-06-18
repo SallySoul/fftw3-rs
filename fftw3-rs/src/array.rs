@@ -110,7 +110,7 @@ pub type Alignment = i32;
 /// Check the alignment of slice
 ///
 /// ```
-/// # use fftw3::array::*;
+/// # use fftw3_rs::array::*;
 /// let a = AlignedVec::<f32>::new(123);
 /// assert_eq!(alignment_of(&a), 0);  // aligned
 /// ```
