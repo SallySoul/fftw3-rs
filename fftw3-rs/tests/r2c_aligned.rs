@@ -1,15 +1,15 @@
-use fftw::plan::*;
-use fftw::types::*;
-use num_traits::Zero;
+use fftw3_rs::array::*;
+use fftw3_rs::plan::*;
+use fftw3_rs::types::*;
 
 /// Check successive forward and backward transform equals to the identity
 #[test]
 fn c2r2c_identity() {
     let n = 32;
-    let mut a = vec![c64::zero(); n / 2 + 1];
-    let mut b = vec![0.0; n];
-    let c2r: C2RPlan64 = C2RPlan::new(&[n], &mut a, &mut b, Flag::MEASURE).unwrap();
-    let r2c: R2CPlan64 = R2CPlan::new(&[n], &mut b, &mut a, Flag::MEASURE).unwrap();
+    let c2r: C2RPlan64 = C2RPlan::aligned(&[n], Flag::MEASURE).unwrap();
+    let r2c: R2CPlan64 = R2CPlan::aligned(&[n], Flag::MEASURE).unwrap();
+    let mut a = AlignedVec::new(n / 2 + 1);
+    let mut b = AlignedVec::new(n);
     for i in 0..(n / 2 + 1) {
         a[i] = c64::new(1.0, 0.0);
     }

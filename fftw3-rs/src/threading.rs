@@ -49,7 +49,7 @@ extern "C" fn rayon_thread_callback(
     njobs: ::core::ffi::c_int,
     _: *mut ::core::ffi::c_void,
 ) {
-    profiling::scope!("FFTW Rayon Thread Callback");
+    profiling::scope!("fftw3-rs rayon thread callback");
     let sync_jobdata = unsafe { SyncMutPtr::new(jobdata) };
     (0..njobs).into_par_iter().for_each(|job| unsafe {
         let arg = sync_jobdata.inner().add(job as usize * elsize);

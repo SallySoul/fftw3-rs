@@ -1,0 +1,36 @@
+[package]
+name = "fftw3-rs"
+version = "0.8.6"
+authors = ["Toshiki Teramura <toshiki.teramura@gmail.com>", "Russell Bentley <rbentley@cs.stonybrook.edu>"]
+edition = "2018"
+
+description = "Safe wrapper for FFTW3 with multi-threading capabilities"
+repository = "https://github.com/SallySoul/fftw3-rs"
+keywords = ["fftw", "fftw3", "rayon", "fft", "fast fourier transform"]
+license-file = "../LICENSE.md"
+
+[features]
+default = ["source", "threading"]
+system = ["fftw3-rs-sys/system"]
+source = ["fftw3-rs-sys/source"]
+threading = ["source", "fftw3-rs-sys/threading", "dep:rayon", "dep:sync-ptr", "dep:profiling"]
+intel-mkl = ["fftw3-rs-sys/intel-mkl"]
+
+[dependencies]
+bitflags = "2.2.1"
+lazy_static = "1.4.0"
+ndarray = "0.15.6"
+num-complex = "0.4.3"
+num-traits = "0.2.15"
+thiserror = "1.0.40"
+rayon = { version =  "1.10.0", optional = true }
+sync-ptr = { version = "0.1.1", optional = true }
+profiling = { version = "1.0.16", optional = true }
+
+[dependencies.fftw3-rs-sys]
+path = "../fftw3-rs-sys"
+default-features = false
+
+[package.metadata.docs.rs]
+no-default-features = true
+features = ["system"]
