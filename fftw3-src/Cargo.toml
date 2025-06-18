@@ -1,5 +1,5 @@
 [package]
-name = "fftw3-src"
+name = "fftw3-rs-src"
 version = "0.8.6"
 authors = ["Toshiki Teramura <toshiki.teramura@gmail.com>", "Russell Bentley <rbentley@cs.stonybrook.edu>"]
 edition = "2018"

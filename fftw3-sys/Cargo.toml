@@ -1,5 +1,5 @@
 [package]
-name = "fftw3-sys"
+name = "fftw3-rs-sys"
 version = "0.8.6"
 authors = ["Toshiki Teramura <toshiki.teramura@gmail.com>", "Russell Bentley <rbentley@cs.stonybrook.edu>"]
 edition = "2018"
@@ -12,8 +12,8 @@ license-file = "../LICENSE.md"
 [features]
 default = ["source"]
 system = []
-source = ["fftw3-src"]
-threading = ["source", "fftw3-src/threading"]
+source = ["fftw3-rs-src"]
+threading = ["source", "fftw3-rs-src/threading"]
 intel-mkl = ["intel-mkl-src"]
 
 [dependencies]
@@ -21,7 +21,7 @@ libc = "0.2.142"
 num-complex = "0.4.3"
 
 [dependencies.fftw3-src]
-path = "../fftw3-src"
+path = "../fftw3-rs-src"
 optional = true
 
 [dependencies.intel-mkl-src]
