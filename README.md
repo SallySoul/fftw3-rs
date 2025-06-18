@@ -3,8 +3,7 @@ fftw3-rs
 ![Rust](https://github.com/sallysoul/fftw3-rs/workflows/Rust/badge.svg)
 
 Rust bindings for the [FFTW3 C-library](http://www.fftw.org/) for computing discrete Fourier transforms, as well as discrete cosine and sine transforms.
-
-===========
+--------------
 
 This project is a fork of [fftw](https://github.com/rust-math/fftw).
 The notable additions are:
