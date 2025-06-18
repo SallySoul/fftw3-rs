@@ -20,7 +20,7 @@ intel-mkl = ["intel-mkl-src"]
 libc = "0.2.142"
 num-complex = "0.4.3"
 
-[dependencies.fftw3-src]
+[dependencies.fftw3-rs-src]
 path = "../fftw3-rs-src"
 optional = true
 
