@@ -27,7 +27,7 @@ jobs:
         command: test
         args: >
           --all-targets
-          --manifest-path=fftw/Cargo.toml
+          --manifest-path=fftw3/Cargo.toml
           --features=${{ matrix.feature }}
           --no-default-features
 
@@ -45,7 +45,7 @@ jobs:
     - uses: actions-rs/cargo@v1
       with:
         command: test
-        args: --manifest-path=fftw/Cargo.toml --features=${{ matrix.feature }} --no-default-features
+        args: --manifest-path=fftw3/Cargo.toml --features=${{ matrix.feature }} --no-default-features
 
   linux:
     runs-on: ubuntu-latest
@@ -61,7 +61,7 @@ jobs:
     - uses: actions-rs/cargo@v1
       with:
         command: test
-        args: --manifest-path=fftw/Cargo.toml --features=${{ matrix.feature }} --no-default-features
+        args: --manifest-path=fftw3/Cargo.toml --features=${{ matrix.feature }} --no-default-features
 
   check-format:
     runs-on: ubuntu-latest
