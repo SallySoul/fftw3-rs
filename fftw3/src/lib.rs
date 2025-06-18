@@ -8,9 +8,9 @@
 //! Complex-to-Complex
 //!
 //! ```
-//! use fftw::array::AlignedVec;
-//! use fftw::plan::*;
-//! use fftw::types::*;
+//! use fftw3::array::AlignedVec;
+//! use fftw3::plan::*;
+//! use fftw3::types::*;
 //! use std::f64::consts::PI;
 //!
 //! let n = 128;
@@ -27,9 +27,9 @@
 //! Complex-to-Real
 //!
 //! ```
-//! use fftw::array::AlignedVec;
-//! use fftw::plan::*;
-//! use fftw::types::*;
+//! use fftw3::array::AlignedVec;
+//! use fftw3::plan::*;
+//! use fftw3::types::*;
 //! use std::f64::consts::PI;
 //!
 //! let n = 128;
@@ -42,7 +42,7 @@
 //! c2r.c2r(&mut a, &mut b).unwrap();
 //! ```
 
-extern crate fftw_sys as ffi;
+extern crate fftw3_sys as ffi;
 
 use lazy_static::lazy_static;
 use std::sync::Mutex;

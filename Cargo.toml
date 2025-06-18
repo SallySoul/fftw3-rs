@@ -1,6 +1,6 @@
 [workspace]
 members = [
-  "fftw",
-  "fftw-sys",
-  "fftw-src",
+  "fftw3",
+  "fftw3-sys",
+  "fftw3-src",
 ]

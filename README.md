@@ -14,14 +14,14 @@ The notable additions are:
 
 This repository includes three crates:
 
-- `fftw`: A safe wrapper in Rust
-- `fftw-sys`: An unsafe wrapper in Rust
-- `fftw-src`: A crate for downloading and compiling the FFTW library
+- `fftw3`: A safe wrapper in Rust
+- `fftw3-sys`: An unsafe wrapper in Rust
+- `fftw3-src`: A crate for downloading and compiling the FFTW library
 
 It can be included as a dependency by adding the following to your `Cargo.toml`
 ```
 [dependencies]
-fftw = { git = "https://github.com/sallysoul/fftw3-rs.git", tag = "fftw3-v0.8.5" }
+fftw3 = { git = "https://github.com/sallysoul/fftw3-rs.git", tag = "fftw3-v0.8.5" }
 ```
 
 Feature flags

@@ -1,5 +1,5 @@
-use fftw::plan::*;
-use fftw::types::*;
+use fftw3::plan::*;
+use fftw3::types::*;
 
 /// Check successive forward and backward transform equals to the identity
 #[test]
