@@ -18,6 +18,12 @@ This repository includes three crates:
 - `fftw-sys`: An unsafe wrapper in Rust
 - `fftw-src`: A crate for downloading and compiling the FFTW library
 
+It can be included as a depenency by adding the following to your `Cargo.toml`
+```
+[dependencies]
+fftw = { git = "https://github.com/sallysoul/fftw3-rs.git", tag = "fftw3-v0.8.5" }
+```
+
 Feature flags
 --------------
 
