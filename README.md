@@ -1,21 +1,24 @@
-rust-fftw3
+fftw3-rs
 ===========
 ![Rust](https://github.com/sallysoul/fftw3-rs/workflows/Rust/badge.svg)
 
-Rust bindings for the [FFTW C-library](http://www.fftw.org/) for computing discrete Fourier transforms, as well as discrete cosine and sine transforms.
+Rust bindings for the [FFTW3 C-library](http://www.fftw.org/) for computing discrete Fourier transforms, as well as discrete cosine and sine transforms.
+
+===========
+
+This project is a fork of [fftw](https://github.com/rust-math/fftw).
+The notable additions are:
+
+- Updated to FFTW3-3.3.10 
+- Support for using [wisdom](https://www.fftw.org/doc/Wisdom.html)
+- Support for multi-threaded plans.
+- Support for using [Rayon](https://github.com/rayon-rs/rayon) to execute parallel plans.
 
 This repository includes three crates:
 
-- [![Crate](https://img.shields.io/crates/v/fftw.svg)](https://crates.io/crates/fftw)
-  [![docs.rs](https://docs.rs/fftw/badge.svg)](https://docs.rs/fftw)
-  `fftw`: A safe wrapper in Rust
-- [![Crate](https://img.shields.io/crates/v/fftw-sys.svg)](https://crates.io/crates/fftw-sys)
-  [![docs.rs](https://docs.rs/fftw-sys/badge.svg)](https://docs.rs/fftw-sys)
-  `fftw-sys`: An unsafe wrapper in Rust
-- [![Crate](https://img.shields.io/crates/v/fftw-src.svg)](https://crates.io/crates/fftw-src)
-  [![docs.rs](https://docs.rs/fftw-src/badge.svg)](https://docs.rs/fftw-src)
-  `fftw-src`: A crate for downloading and compiling the FFTW library
-
+- `fftw`: A safe wrapper in Rust
+- `fftw-sys`: An unsafe wrapper in Rust
+- `fftw-src`: A crate for downloading and compiling the FFTW library
 
 Feature flags
 --------------
@@ -30,6 +33,9 @@ Feature flags
     - This feature is unsupported on Windows
 - `intel-mkl` Use Intel MKL backend through [intel-mkl-src](https://github.com/termoshtt/rust-intel-mkl)
     - Only Linux and Windows are supported
+- `threading` Utilizes a threading-enabled FFTW3 build, with additional rust bindings.
+    - Includes optional ability to register Rayon based thread callback with `fftw_threads_set_callback`.
+    - Rayon callback includes a `profiling::scope`
 
 |Feature  | Linux | Windows | macOS |
 |:--------|:-----:|:-------:|:-----:|
